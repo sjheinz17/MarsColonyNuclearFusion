@@ -1,0 +1,6 @@
+source,category,certainty_of_existence,chance_of_commerciality,net_power_kw,notes
+Solar PV,Prospective Resource,0.95,0.4,50.0,"Sunlight is certain but dust, night, and storms cut usable output."
+Fission (Kilopower-class),Proved Reserve,0.99,0.92,40.0,EIA fleet average capacity factor: 95.6%
+CFS SPARC,Contingent Resource,0.7,0.25,50000.0,"TRL 4, Q=11"
+Princeton FRC,Contingent Resource,0.5,0.15,2500.0,"TRL 3, Q=5"
+Avalanche Orbitron,Contingent Resource,0.3,0.1,500.0,"TRL 2, Q=3"
