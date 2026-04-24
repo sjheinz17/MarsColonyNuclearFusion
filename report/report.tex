@@ -71,7 +71,11 @@ This distinction matters. The two downloaded inputs are MDAD and the annual nucl
 
 \subsection{Feasibility and cost}
 
-We place solar, Kilopower class fission, and three fusion concepts on a McKelvey style chart using certainty of existence and chance of commerciality. This is a compact way to separate technologies that look deployable now from technologies that still depend on major engineering progress.
+We use a McKelvey style chart as an adapted feasibility framework, not as a literal claim that each power option is a mineral reserve. In its classical form, a McKelvey chart is used in resource economics to classify resources by two questions: how certain we are that the resource exists, and whether it is commercially recoverable. The high certainty and high commerciality corner corresponds to reserves, while lower certainty or lower commerciality areas represent resources that are known, possible, or technically interesting but not yet economically usable.
+
+For this project, the same two axis idea is useful because the power options differ along two similar dimensions. We adapt ``certainty of existence'' to mean confidence that the power system exists as a deployable engineering system, not confidence that sunlight, uranium, or fusion fuel exists. We adapt ``chance of commerciality'' to mean the chance that the system could plausibly operate as a practical Mars colony power source after considering maturity, reliability, capacity factor, launch mass, and Mars specific operating constraints. The category names on the chart should therefore be read as analogies: fission is treated like a proved reserve because compact fission power is the closest to deployable baseload technology; solar is treated as prospective because sunlight is certain but Mars operation is limited by night, dust, storms, and storage needs; fusion concepts are treated as contingent because the reactor concepts are promising but have not yet demonstrated the operating maturity needed for a Mars power system.
+
+The chart uses scores from 0 to 1 for the two adapted axes, with dashed 0.5 lines as qualitative thresholds rather than calibrated probabilities. Point size represents net electric power, so the figure separates the maturity question from the scale question. This is why fusion can appear large and attractive on power or cost while still remaining low on deployability.
 
 We also compute an all in levelized cost of energy. The model includes Earth side capital cost, launch cost, operating cost, lifetime, and capacity factor. Launch cost is set to \$1{,}500 per kilogram in the base case.
 
@@ -87,12 +91,12 @@ The project also compares three simple demand forecast models: a constant mean b
 
 \subsection{Feasibility and cost}
 
-The classification result is straightforward. Fission is the only option that lands in the high certainty and high commerciality corner. Solar is physically available but operationally limited on Mars, so it sits in a prospective category. The fusion concepts remain contingent because the basic ideas are promising but not yet mature enough to treat as deployable systems.
+The adapted McKelvey result is straightforward. Fission is the only option that lands in the high certainty and high commerciality corner. Solar is physically available but operationally limited on Mars, so it sits in a prospective category. The fusion concepts remain contingent because the basic ideas are promising but not yet mature enough to treat as deployable systems. This does not mean fusion fuel is scarce; it means the reactor technology is not yet a proved Mars power system.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.82\textwidth]{mckelvey_box.png}
-    \caption{McKelvey style resource classification for the five power options.}
+    \caption{Adapted McKelvey style deployability classification for the five power options. The axes borrow the structure of a classical resource chart but reinterpret it for power system maturity and Mars commercial practicality.}
 \end{figure}
 
 The cost model points in a different direction. On projected scale and cost, SPARC style fusion looks far cheaper than the other options. Solar and small fission units both remain expensive after launch is included.
@@ -168,12 +172,12 @@ The scaling studies explain why fusion still matters in the project even though 
     \caption{Fission scaling for the 100 person and 2{,}000 person cases.}
 \end{figure}
 
-The sensitivity work does not overturn the basic story. The TRL mapping changes the exact fusion placement in the feasibility chart, and launch cost can move the ordering near the bottom of the LCOE ranking, but none of those changes make fusion mature today or make solar only systems reliable.
+The sensitivity work does not overturn the basic story. The TRL mapping changes the exact fusion placement in the adapted McKelvey chart, and launch cost can move the ordering near the bottom of the LCOE ranking, but none of those changes make fusion mature today or make solar only systems reliable.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{mckelvey_sensitivity.png}
-    \caption{McKelvey sensitivity to different maturity assumptions.}
+    \caption{Adapted McKelvey sensitivity to different maturity assumptions.}
 \end{figure}
 
 \begin{figure}[H]

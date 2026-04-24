@@ -94,9 +94,14 @@ def run_mckelvey_classification() -> pd.DataFrame:
         "Prospective Resource": "#f39c12",
         "Contingent Resource": "#e74c3c",
     }
+    legend_labels = {
+        "Proved Reserve": "Proved analogue",
+        "Prospective Resource": "Prospective analogue",
+        "Contingent Resource": "Contingent analogue",
+    }
     offsets = {
         "Solar PV": (10, -15),
-        "Fission (Kilopower-class)": (-20, 10),
+        "Fission (Kilopower-class)": (-110, 10),
         "CFS SPARC": (10, -15),
         "Princeton FRC": (10, 10),
         "Avalanche Orbitron": (10, -15),
@@ -126,14 +131,14 @@ def run_mckelvey_classification() -> pd.DataFrame:
     ax.axvline(0.5, color="gray", linestyle="--", alpha=0.5)
     ax.set_xlim(0, 1.05)
     ax.set_ylim(0, 1.05)
-    ax.set_xlabel("Certainty of Existence")
-    ax.set_ylabel("Chance of Commerciality")
-    ax.set_title("McKelvey Box: Mars Power Resource Classification")
-    ax.text(0.75, 0.75, "RESERVES", fontsize=11, alpha=0.25, ha="center", weight="bold")
-    ax.text(0.25, 0.75, "Contingent\nResources", fontsize=9, alpha=0.25, ha="center")
-    ax.text(0.75, 0.25, "Prospective\nResources", fontsize=9, alpha=0.25, ha="center")
+    ax.set_xlabel("Certainty of Deployable System")
+    ax.set_ylabel("Chance of Mars Commercial Operation")
+    ax.set_title("Adapted McKelvey Chart: Mars Power Deployability")
+    ax.text(0.75, 0.75, "Proved\nAnalogue", fontsize=11, alpha=0.25, ha="center", weight="bold")
+    ax.text(0.25, 0.75, "Commercial\nPotential", fontsize=9, alpha=0.25, ha="center")
+    ax.text(0.84, 0.12, "Known System,\nMars Barriers", fontsize=9, alpha=0.25, ha="center")
     ax.text(0.25, 0.25, "Low Confidence", fontsize=9, alpha=0.25, ha="center")
-    patches = [mpatches.Patch(color=color, label=label) for label, color in colors.items()]
+    patches = [mpatches.Patch(color=color, label=legend_labels[label]) for label, color in colors.items()]
     ax.legend(handles=patches, loc="upper left")
 
     out_png = save_figure(fig, "mckelvey_box.png")
@@ -437,6 +442,11 @@ def run_mckelvey_sensitivity() -> pd.DataFrame:
         "Prospective Resource": "#f39c12",
         "Contingent Resource": "#e74c3c",
     }
+    legend_labels = {
+        "Proved Reserve": "Proved analogue",
+        "Prospective Resource": "Prospective analogue",
+        "Contingent Resource": "Contingent analogue",
+    }
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharey=True)
     rows = []
@@ -452,7 +462,8 @@ def run_mckelvey_sensitivity() -> pd.DataFrame:
                 edgecolors="black",
                 linewidth=1.4,
             )
-            ax.annotate(row["source"], (row["certainty_of_existence"], row["chance_of_commerciality"]), textcoords="offset points", xytext=(6, 6), fontsize=8)
+            offset = (-92, 6) if row["source"] == "Fission (Kilopower-class)" else (6, 6)
+            ax.annotate(row["source"], (row["certainty_of_existence"], row["chance_of_commerciality"]), textcoords="offset points", xytext=offset, fontsize=8)
             rows.append(
                 {
                     "scenario": scenario_name,
@@ -490,15 +501,15 @@ def run_mckelvey_sensitivity() -> pd.DataFrame:
         ax.axvline(0.5, color="gray", linestyle="--", alpha=0.5)
         ax.set_xlim(0, 1.05)
         ax.set_ylim(0, 1.05)
-        ax.set_xlabel("Certainty of Existence")
+        ax.set_xlabel("Certainty of Deployable System")
         ax.set_title(f"{scenario_name} TRL Mapping")
-        ax.text(0.75, 0.75, "RESERVES", fontsize=8, alpha=0.2, ha="center", weight="bold")
-        ax.text(0.25, 0.75, "Contingent\nResources", fontsize=8, alpha=0.2, ha="center")
-        ax.text(0.75, 0.25, "Prospective\nResources", fontsize=8, alpha=0.2, ha="center")
+        ax.text(0.75, 0.75, "Proved\nAnalogue", fontsize=8, alpha=0.2, ha="center", weight="bold")
+        ax.text(0.25, 0.75, "Commercial\nPotential", fontsize=8, alpha=0.2, ha="center")
+        ax.text(0.84, 0.12, "Known System,\nMars Barriers", fontsize=8, alpha=0.2, ha="center")
 
-    axes[0].set_ylabel("Chance of Commerciality")
-    axes[2].legend(handles=[mpatches.Patch(color=color, label=label) for label, color in colors.items()], loc="upper left", fontsize=8)
-    fig.suptitle("McKelvey Box Sensitivity")
+    axes[0].set_ylabel("Chance of Mars Commercial Operation")
+    axes[2].legend(handles=[mpatches.Patch(color=color, label=legend_labels[label]) for label, color in colors.items()], loc="upper left", fontsize=8)
+    fig.suptitle("Adapted McKelvey Sensitivity")
     out_png = save_figure(fig, "mckelvey_sensitivity.png")
     plt.close(fig)
 
