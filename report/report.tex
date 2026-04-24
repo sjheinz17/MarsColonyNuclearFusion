@@ -51,16 +51,16 @@ The project uses six input CSV files. Two are downloaded datasets and four are t
     \centering
     \small
     \caption{Input CSV files and where they came from.}
-    \begin{tabular}{>{\raggedright\arraybackslash}p{2.0in}>{\raggedright\arraybackslash}p{4.0in}}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{1.55in}>{\raggedright\arraybackslash}p{2.05in}>{\raggedright\arraybackslash}p{2.35in}}
         \toprule
-        File & Source and status \\
+        File & Description & Source and status \\
         \midrule
-        \path{MDAD.csv} & Downloaded from the Mars Dust Activity Database public release \cite{mdad}. \\
-        \path{nuclear_capacity_data_annual.csv} & Downloaded from U.S. Energy Information Administration Electric Power Annual Table 4.08.B \cite{eia}. \\
-        \path{fusion_reactor_specs.csv} & Team assembled table based on SPARC \cite{sparc}, Princeton Satellite Systems material on direct fusion drive \cite{pss}, and Avalanche Energy Orbitron material \cite{avalanche}. \\
-        \path{habitat_engineering_constants.csv} & Team built assumption table anchored to NASA Mars DRA 5.0 and MOXIE power related mission context \cite{dra,moxie}. \\
-        \path{storage_specs.csv} & Team built benchmark table for storage assumptions used in the class model. \\
-        \path{dust_penalty_curve.csv} & Team built seasonal solar derating curve used in the Mars year simulation. \\
+        \path{MDAD.csv} & Mars dust storm observations used to sample storm timing and duration near Jezero. & Downloaded from the Mars Dust Activity Database public release \cite{mdad}. \\
+        \path{nuclear_capacity_data_annual.csv} & Terrestrial nuclear capacity and generation data used as a benchmark for fission capacity factors. & Downloaded from U.S. Energy Information Administration Electric Power Annual Table 4.08.B \cite{eia}. \\
+        \path{fusion_reactor_specs.csv} & Reactor level assumptions for the fusion concepts compared in the cost and feasibility models. & Team assembled table based on SPARC \cite{sparc}, Princeton Satellite Systems material on direct fusion drive \cite{pss}, and Avalanche Energy Orbitron material \cite{avalanche}. \\
+        \path{habitat_engineering_constants.csv} & Colony demand assumptions for life support, water, oxygen, lighting, communications, medical load, and thermal load. & Team built assumption table anchored to NASA Mars DRA 5.0 and MOXIE power related mission context \cite{dra,moxie}. \\
+        \path{storage_specs.csv} & Battery and storage assumptions used to track how long the colony can ride through low generation periods. & Team built benchmark table for storage assumptions used in the class model. \\
+        \path{dust_penalty_curve.csv} & Seasonal solar derating curve that reduces modeled solar output across the simulated Mars year. & Team built seasonal solar derating curve used in the Mars year simulation. \\
         \bottomrule
     \end{tabular}
 \end{table}
