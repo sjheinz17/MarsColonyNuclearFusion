@@ -110,11 +110,13 @@ We also compute an all in levelized cost of energy, or LCOE. LCOE is the model's
 
 \subsection{Reliability model}
 
-The reliability model simulates one Mars year, or 668 sols, for 6 person, 100 person, and 2{,}000 person colonies. Demand is built from habitat assumptions for plug loads, water recycling, oxygen production, lighting, communications, medical load, and thermal load. Storm sequences are drawn from the Jezero relevant subset of MDAD. Solar output is reduced by the seasonal dust penalty curve and then cut further during sampled storm periods. Fission is treated as a high availability baseload source, and the battery state of charge is tracked across the year.
+The reliability model estimates how often a candidate colony power system can meet the colony's electricity demand without an energy shortfall. In this report, reliability means the fraction of simulated sols where available generation plus battery discharge is enough to serve the full daily load. The model simulates one Mars year, or 668 sols, for 6 person, 100 person, and 2{,}000 person colonies. Demand is built from habitat assumptions for plug loads, water recycling, oxygen production, lighting, communications, medical load, and thermal load.
+
+The site assumption is Jezero crater, the Mars region used by the Perseverance rover mission. We use Jezero because it gives the dust storm sampling a concrete location instead of treating Mars dust as globally uniform. Storm sequences are drawn from the Jezero relevant subset of MDAD. Solar output is reduced by the seasonal dust penalty curve and then cut further during sampled storm periods. Fission is treated as a high availability baseload source, and the battery state of charge is tracked across the year.
 
 \subsection{Forecast comparison}
 
-The project also compares three simple demand forecast models: a constant mean baseline, a sinusoidal seasonal proxy labeled SARIMA, and a smoothed residual model labeled Transformer. This part of the project is a side analysis rather than the core result, but it gives one more check on how the synthetic demand behaves across colony sizes.
+The forecast comparison predicts the colony's daily electricity demand, not the weather and not reactor output. The input series is the synthetic sol by sol demand curve generated from the habitat load model for each colony size. The project compares three simple demand forecast models: a constant mean baseline, a sinusoidal seasonal proxy labeled SARIMA, and a smoothed residual model labeled Transformer. This part of the project is a side analysis rather than the core result, but it gives one more check on how predictable the modeled colony load is across colony sizes.
 
 \section{Results}
 
