@@ -76,18 +76,29 @@ We use a McKelvey style chart as an adapted feasibility framework, not as a lite
 
 For this project, the same two axis idea is useful because the power options differ along two similar dimensions. We adapt ``certainty of existence'' to mean confidence that the power system exists as a deployable engineering system, not confidence that sunlight, uranium, or fusion fuel exists. We adapt ``chance of commerciality'' to mean the chance that the system could plausibly operate as a practical Mars colony power source after considering maturity, reliability, capacity factor, launch mass, and Mars specific operating constraints. The category names on the chart should therefore be read as analogies: fission is treated like a proved reserve because compact fission power is the closest to deployable baseload technology; solar is treated as prospective because sunlight is certain but Mars operation is limited by night, dust, storms, and storage needs; fusion concepts are not treated as proved because the reactor concepts are promising but have not yet demonstrated the operating maturity needed for a Mars power system.
 
-The chart coordinates are computed from a deterministic screening rubric rather than manually placed. For option \(i\), let \(T_i\) be the technology readiness score, \(A_i\) be the capacity factor from the cost model, \(M_i\) be the Mars operating score from \path{technology_screening_inputs.csv}, and \(C_i\) be the LCOE score:
+The chart coordinates are computed from a deterministic screening rubric rather than manually placed. The rubric uses four inputs for each power option \(i\):
+
+\begin{itemize}
+    \item \(\mathrm{TRL}_i\): technology readiness level, on the standard 1 to 9 scale where 9 is most mature.
+    \item \(A_i\): capacity factor, meaning the fraction of the year the system is assumed to produce its rated average output in the cost model.
+    \item \(M_i\): Mars operating score, a 0 to 1 project input that penalizes technologies for Mars specific barriers such as dust, night, storage dependence, or lack of demonstrated surface operation.
+    \item \(\mathrm{LCOE}_i\): levelized cost of energy, meaning the average lifetime cost per kilowatt hour after capital cost, launch cost, operating cost, lifetime, and capacity factor are included.
+\end{itemize}
+
+Those inputs are converted into two normalized intermediate scores. \(T_i\) is the technology readiness score, and \(C_i\) is the cost score. The cost score gives the cheapest option a value of 1 and gives more expensive options smaller values:
 
 \[
 T_i = \frac{\mathrm{TRL}_i}{9}, \qquad
 C_i = \min\left(1,\frac{\min_j \mathrm{LCOE}_j}{\mathrm{LCOE}_i}\right).
 \]
 
-The adapted deployability coordinate \(D_i\) and commercial operation coordinate \(P_i\) are then:
+The adapted deployability coordinate \(D_i\) is the x-axis value in the chart. It combines readiness, assumed operating availability, and Mars-specific operating difficulty:
 
 \[
 D_i = 0.60T_i + 0.25A_i + 0.15M_i,
 \]
+
+The adapted commercial operation coordinate \(P_i\) is the y-axis value. It is multiplied by \(D_i\) so that a system cannot score as highly commercial if it is not yet deployable:
 
 \[
 P_i = D_i(0.55A_i + 0.25M_i + 0.20C_i).
@@ -95,7 +106,7 @@ P_i = D_i(0.55A_i + 0.25M_i + 0.20C_i).
 
 The weights are class project modeling assumptions. They intentionally put the most weight on technology maturity and expected operating availability, while still allowing Mars penalties and modeled cost to affect placement. The dashed 0.5 lines are qualitative thresholds, not calibrated probabilities. Point size represents net electric power, so the figure separates the maturity question from the scale question. This is why fusion can appear large and attractive on power or cost while still remaining below the proved analogue region.
 
-We also compute an all in levelized cost of energy. The model includes Earth side capital cost, launch cost, operating cost, lifetime, and capacity factor. Launch cost is set to \$1{,}500 per kilogram in the base case.
+We also compute an all in levelized cost of energy, or LCOE. LCOE is the model's average cost of delivered electricity over the system lifetime, measured in dollars per kilowatt hour. The model includes Earth side capital cost, launch cost, operating cost, lifetime, and capacity factor. Launch cost is set to \$1{,}500 per kilogram in the base case.
 
 \subsection{Reliability model}
 
