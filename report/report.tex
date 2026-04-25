@@ -28,15 +28,15 @@
 \maketitle
 
 \begin{abstract}
-This project compares solar, fission, and several fusion concepts for a Mars colony power system. We study the problem from three angles: feasibility, cost, and reliability under dust storms. The main result is consistent across the different analyses. Solar by itself is not reliable enough for the colony sizes we tested, fission performs well as the practical near term option, and fusion becomes interesting mainly as a long run scale argument rather than a near term engineering choice. The project repository, report source, and slide deck are available at \href{https://github.com/sjheinz17/MarsColonyNuclearFusion}{github.com/sjheinz17/MarsColonyNuclearFusion}.
+This project compares solar, fission, and several fusion concepts for a Mars colony power system. We study the problem from three angles: feasibility, cost, and reliability under dust storms. The main result is a staged power timeline rather than a single winning technology. For an early low population outpost, fission with solar support is the most credible path. As the colony grows, solar remains useful as supplemental generation but does not replace firm baseload power. At larger colony scales, fusion becomes worth serious consideration because the number of required fission units grows quickly and projected fusion cost improves with scale. The project repository, report source, and slide deck are available at \href{https://github.com/sjheinz17/MarsColonyNuclearFusion}{github.com/sjheinz17/MarsColonyNuclearFusion}.
 \end{abstract}
 
 \section{Introduction}
 
-Future Mars missions will need continuous electric power for life support, thermal control, oxygen production, water recycling, communications, and general habitat operations. That requirement becomes harder on Mars because solar input is weaker than on Earth, nights are long, and dust storms can sharply reduce available solar power. The project was built around three questions:
+Future Mars missions will need continuous electric power for life support, thermal control, oxygen production, water recycling, communications, and general habitat operations. That requirement becomes harder on Mars because solar input is weaker than on Earth, nights are long, and dust storms can sharply reduce available solar power. The project is therefore not only asking whether fusion can power a Mars colony. It is asking what power mix makes sense as the colony moves from a small outpost to a larger settlement. The project was built around three questions:
 
 \begin{enumerate}
-    \item At what point does fusion start to look better than adding more fission units.
+    \item How should the colony power mix change as population and demand grow.
     \item How strongly do dust storms affect power reliability.
     \item Which fusion concept looks most credible on paper.
 \end{enumerate}
@@ -256,7 +256,11 @@ The forecast comparison is secondary, but it is still internally consistent. The
 
 \section{Discussion}
 
-The project supports a simple conclusion. If the goal is a power system that looks credible with current technology, fission with solar support is the strongest answer in this repo. If the goal is to think about very large colony scale decades in the future, fusion becomes more attractive because the cost model and the fission scaling study both point in that direction.
+The project supports a staged timeline for Mars colony energy rather than a one technology answer. The first stage is a small, early outpost. For that case, fission with solar support is the strongest answer in this repo. The reliability simulation shows that solar only systems fail badly under night and dust constraints, while solar plus fission reaches near full reliability for the 6 person baseline. This makes fission the practical early baseload source, with solar serving as useful supplemental generation rather than the backbone of the system.
+
+The second stage is a growing settlement. At this point the colony can keep adding fission capacity and solar area, but the system starts to become a logistics problem. Solar remains attractive because panels are modular and can reduce fuel or reactor operating burden when conditions are good. The analysis does not support solar as the only supply, though, because dust storms and storage needs keep the reliability penalty high. In this middle stage, the most defensible architecture is still firm fission power, expanded solar, and enough storage to smooth short term variability.
+
+The third stage is a large settlement where fusion becomes worth serious consideration. The fission scaling result is the main reason: reaching the same reliability threshold takes 8 Kilopower units for the 100 person case but 160 units for the 2{,}000 person case. That does not prove fusion is ready, and it does not make fission impossible, but it changes the planning question. At large colony scale, the mass, deployment, maintenance, and redundancy burden of many small fission units makes a high power fusion system more attractive if the technology matures. This is why the project treats fusion as a long run scale option rather than the first power source for Mars.
 
 At the same time, the report should be clear about what is assumed rather than observed. The dust penalty curve is simplified. The habitat constants and storage tables are project inputs, not downloaded field datasets. Fusion performance numbers come from public concept descriptions, not operating reactors. Those limits do not erase the result, but they do set the right level of confidence.
 
@@ -282,7 +286,7 @@ The GitHub repository for the submitted project is:
 
 \section{Conclusion}
 
-This project does not argue that fusion is ready for Mars now. It argues that the case for fusion becomes stronger as colony scale grows, while the practical case for the first serious Mars power system still points to fission with solar support. That is the main result that stays stable across the classification work, the cost model, and the dust storm reliability analysis.
+This project does not argue that fusion is ready for Mars now. It argues for an energy timeline. A first Mars outpost should rely on fission with solar support because that is the only tested mix in the report that combines deployability with high dust storm reliability. A growing settlement should expand fission and solar together, using solar where it helps but not depending on it as the sole source. Once the colony grows beyond medium scale, fusion becomes worth planning for because the cost model and fission scaling study both point toward better long run scale economics if fusion technology matures. That staged conclusion is the result that stays stable across the classification work, the cost model, and the dust storm reliability analysis.
 
 \begin{thebibliography}{9}
 
