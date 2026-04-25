@@ -48,6 +48,10 @@ def load_fusion_specs() -> pd.DataFrame:
     return load_csv("fusion_reactor_specs.csv")
 
 
+def load_technology_screening_inputs() -> pd.DataFrame:
+    return load_csv("technology_screening_inputs.csv")
+
+
 def load_nuclear_capacity() -> pd.DataFrame:
     return load_csv("nuclear_capacity_data_annual.csv")
 

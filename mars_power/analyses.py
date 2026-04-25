@@ -20,9 +20,10 @@ from mars_power.common import (
     load_dust_curve,
     load_habitat_row,
     load_storage_specs,
+    load_technology_screening_inputs,
     save_figure,
 )
-from mars_power.costs import apply_launch_cost, base_cost_table, build_resource_classification, classify_resource
+from mars_power.costs import apply_launch_cost, base_cost_table, build_resource_classification
 from mars_power.forecasting import (
     compute_metrics,
     diebold_mariano,
@@ -40,6 +41,7 @@ DATA_FILES = [
     ("Dust Storms", "MDAD.csv", True),
     ("EIA Nuclear Annual", "nuclear_capacity_data_annual.csv", True),
     ("Fusion Reactor Specs", "fusion_reactor_specs.csv", True),
+    ("Technology Screening Inputs", "technology_screening_inputs.csv", True),
     ("Habitat Constants", "habitat_engineering_constants.csv", True),
     ("Storage Specs", "storage_specs.csv", True),
     ("Dust Penalty Curve", "dust_penalty_curve.csv", True),
@@ -102,8 +104,8 @@ def run_mckelvey_classification() -> pd.DataFrame:
     offsets = {
         "Solar PV": (10, -15),
         "Fission (Kilopower-class)": (-110, 10),
-        "CFS SPARC": (10, -15),
-        "Princeton FRC": (10, 10),
+        "CFS SPARC": (14, -28),
+        "Princeton FRC": (10, 14),
         "Avalanche Orbitron": (10, -15),
     }
 
@@ -428,14 +430,10 @@ def run_final_synthesis() -> pd.DataFrame:
 def run_mckelvey_sensitivity() -> pd.DataFrame:
     _print_header("McKelvey Box Sensitivity")
 
-    base = build_resource_classification()
-    fixed = base.loc[base["source"].isin(["Solar PV", "Fission (Kilopower-class)"])].copy()
-    fusion = base.loc[~base["source"].isin(fixed["source"])].copy()
-
     scenarios = {
-        "Pessimistic": {"certainty_delta": -0.15, "pc_delta": -0.06},
-        "Base": {"certainty_delta": 0.0, "pc_delta": 0.0},
-        "Optimistic": {"certainty_delta": 0.12, "pc_delta": 0.12},
+        "Pessimistic": {"trl_delta": -1, "mars_delta": -0.05},
+        "Base": {"trl_delta": 0, "mars_delta": 0.0},
+        "Optimistic": {"trl_delta": 1, "mars_delta": 0.05},
     }
     colors = {
         "Proved Reserve": "#2ecc71",
@@ -447,11 +445,28 @@ def run_mckelvey_sensitivity() -> pd.DataFrame:
         "Prospective Resource": "Prospective analogue",
         "Contingent Resource": "Contingent analogue",
     }
+    offsets = {
+        "Solar PV": (8, -12),
+        "Fission (Kilopower-class)": (-92, 6),
+        "CFS SPARC": (12, -20),
+        "Princeton FRC": (10, 10),
+        "Avalanche Orbitron": (8, -14),
+    }
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharey=True)
     rows = []
     for ax, (scenario_name, delta) in zip(axes, scenarios.items()):
-        for _, row in fixed.iterrows():
+        screening = load_technology_screening_inputs()
+        fusion_mask = ~screening["source"].isin(["Solar PV", "Fission (Kilopower-class)"])
+        screening.loc[fusion_mask, "technology_readiness_level"] = (
+            screening.loc[fusion_mask, "technology_readiness_level"] + delta["trl_delta"]
+        ).clip(lower=1, upper=9)
+        screening.loc[fusion_mask, "mars_operating_score"] = (
+            screening.loc[fusion_mask, "mars_operating_score"] + delta["mars_delta"]
+        ).clip(lower=0.0, upper=1.0)
+        resources = build_resource_classification(screening_inputs=screening)
+
+        for _, row in resources.iterrows():
             size = np.log10(row["net_power_kw"] + 1) * 150
             ax.scatter(
                 row["certainty_of_existence"],
@@ -462,7 +477,7 @@ def run_mckelvey_sensitivity() -> pd.DataFrame:
                 edgecolors="black",
                 linewidth=1.4,
             )
-            offset = (-92, 6) if row["source"] == "Fission (Kilopower-class)" else (6, 6)
+            offset = offsets.get(row["source"], (6, 6))
             ax.annotate(row["source"], (row["certainty_of_existence"], row["chance_of_commerciality"]), textcoords="offset points", xytext=offset, fontsize=8)
             rows.append(
                 {
@@ -470,30 +485,9 @@ def run_mckelvey_sensitivity() -> pd.DataFrame:
                     "source": row["source"],
                     "certainty": row["certainty_of_existence"],
                     "Pc": row["chance_of_commerciality"],
+                    "trl": row["technology_readiness_level"],
+                    "mars_operating_score": row["mars_operating_score"],
                     "category": row["category"],
-                }
-            )
-
-        for _, row in fusion.iterrows():
-            certainty = min(1.0, max(0.0, row["certainty_of_existence"] + delta["certainty_delta"]))
-            commerciality = min(1.0, max(0.0, row["chance_of_commerciality"] + delta["pc_delta"]))
-            category = classify_resource(certainty, commerciality)
-            size = np.log10(row["net_power_kw"] + 1) * 150
-            ax.scatter(certainty, commerciality, s=size, c=colors[category], alpha=0.85, edgecolors="black", linewidth=1.4)
-            ax.annotate(
-                f"{row['source']}\n({certainty:.2f}, {commerciality:.2f})",
-                (certainty, commerciality),
-                textcoords="offset points",
-                xytext=(6, -14),
-                fontsize=7,
-            )
-            rows.append(
-                {
-                    "scenario": scenario_name,
-                    "source": row["source"],
-                    "certainty": certainty,
-                    "Pc": commerciality,
-                    "category": category,
                 }
             )
 
